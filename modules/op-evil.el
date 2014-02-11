@@ -1,3 +1,11 @@
+(defun cider-start-and-split-window-repl-right ()
+  (interactive)
+  (call-interactively 'cider)
+  (sleep-for 2)
+  (split-window-horizontally-70-percent-left)
+  (other-window 1)
+  (switch-to-buffer (cider-find-or-create-repl-buffer))
+  (other-window 1))
 (require 'evil)
 (require 'evil-paredit)
 (require 'evil-leader)
@@ -14,15 +22,15 @@
 (add-hook 'ruby-mode-hook
   (function (lambda ()
           (setq evil-shift-width ruby-indent-level))))
-(add-hook 'clojure-mode-hook
-  (function (lambda ()
-          (setq evil-shift-width 2))))
+
 (add-hook 'html-mode-hook
   (function (lambda ()
           (setq evil-shift-width 2))))
 (add-hook 'java-mode-hook
   (function (lambda ()
           (setq evil-shift-width 2))))
+
+
 
 (setq evil-leader/in-all-states t)
 (evil-leader/set-leader ",")
@@ -36,9 +44,11 @@
 	"h" 'projectile-switch-to-buffer)
 
 (evil-leader/set-key-for-mode 'clojure-mode
-  "p" 'cider-eval-expression-at-point-and-paste-into-buffer
+  "j" 'cider-start-and-split-window-repl-bottom
+  "p" 'cider-eval-expression-at-point-in-repl
+  "y" 'cider-eval-expression-at-point-and-paste-into-buffer
   "e" 'cider-eval-buffer
-  "r" 'cider-reset
+  "r" 'refresh-browser
   "s" 'paredit-forward-slurp-sexp
   "h" 'paredit-forward-barf-sexp
 	"n" 'paredit-split-sexp
@@ -56,6 +66,37 @@
 (evil-leader/set-key-for-mode 'js2-mode
 	"e" 'skewer-eval-last-expression
   "l" 'skewer-refresh-browser-then-load-buffer)
+
+(defun projectile-grep-cljs ()
+  "Perform rgrep in the project."
+  (interactive)
+  (let ((roots (projectile-get-project-directories))
+        (search-regexp (if (and transient-mark-mode mark-active)
+                           (buffer-substring (region-beginning) (region-end))
+                         (read-string (projectile-prepend-project-name "Grep for: ")
+                                      (projectile-symbol-at-point)))))
+    (dolist (root-dir roots)
+      (require 'grep)
+      ;; in git projects users have the option to use `vc-git-grep' instead of `rgrep'
+      (if (and (eq (projectile-project-vcs) 'git) projectile-use-git-grep)
+          (vc-git-grep search-regexp "'*'" root-dir)
+        ;; paths for find-grep should relative and without trailing /
+        (let ((grep-find-ignored-directories (-union (-map (lambda (dir) (s-chop-suffix "/" (file-relative-name dir root-dir)))
+                                                           (cdr (projectile-ignored-directories))) grep-find-ignored-directories))
+              (grep-find-ignored-files (-union (-map (lambda (file) (file-relative-name file root-dir)) (projectile-ignored-files)) grep-find-ignored-files)))
+          (grep-compute-defaults)
+          (rgrep search-regexp "* .*" root-dir))))))
+
+(defun cider-reset ()
+  (interactive)
+  (set-buffer "*cider*")
+  (goto-char (point-max))
+  (insert "(user/reset)")
+  (cider-repl-return))
+
+(defun refresh-browser ()
+ (interactive)
+ (shell-command "refresh-chrome"))
 
 (defun skewer-refresh-browser-then-load-buffer ()
  (interactive)
@@ -157,6 +198,37 @@ for specifying the tag."
       (read-from-minibuffer "Press any key to return: ")
       (switch-to-previous-buffer))
 
+(defun cider-eval-form-and-display-in-popup-with-pause ()
+  (interactive)
+  (cider-pprint-eval-last-sexp)
+  (read-from-minibuffer "Press any key to return: ")
+  (delete-other-windows))
+
+
+(defun cider-eval-expression-at-point-in-repl ()
+  (interactive)
+  (let ((form (cider-last-sexp)))
+    ;; Strip excess whitespace
+    (call-interactively 'cider-find-and-clear-repl-buffer)
+    (cider-interactive-eval-to-repl form)
+    (sleep-for 0.1)
+    (set-buffer (cider-find-or-create-repl-buffer))
+    (goto-char (point-max))
+    (cider-repl-return)))
+
+
+
+(defun cider-eval-expression-at-point-in-repl-old ()
+  (interactive)
+  (let ((form (cider-last-sexp)))
+    ;; Strip excess whitespace
+    (while (string-match "\\`\s+\\|\n+\\'" form)
+      (setq form (replace-match "" t t form)))
+    (cider-interactive-eval )
+    (set-buffer (cider-find-or-create-repl-buffer))
+    (goto-char (point-max))
+    (insert form)
+    (cider-repl-return)))
 ;; make it possible to change cursor color
 (setq evil-default-cursor t)
 
@@ -199,5 +271,59 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (defun create-tags (dir-name)
     "Create tags file."
     (interactive "DDirectory ")
-		(message 	
-		 (shell-command-to-strin		(format "find . -iname '*.clj'"))))
+		(message
+		 (shell-command-to-string		(format "find . -iname '*.clj'"))))
+
+(defun split-window-vertically-70-percent-top ()
+  (interactive)
+  (delete-other-windows)
+  (split-window-vertically (floor (* 0.68 (window-height)))))
+
+
+(defun split-window-horizontally-70-percent-left ()
+  (interactive)
+  (delete-other-windows)
+  (split-window-horizontally (floor (* 0.72 (window-width)))))
+
+(defun cider-start-and-split-window-repl-right ()
+  (interactive)
+  (call-interactively 'cider)
+  (sleep-for 2)
+  (split-window-horizontally-70-percent-left)
+  (other-window 1)
+  (switch-to-buffer (cider-find-or-create-repl-buffer))
+  (other-window 1))
+
+(defun cider-start-and-split-window-repl-bottom ()
+  (interactive)
+  (call-interactively 'cider)
+  (sleep-for 2)
+  (split-window-vertically-70-percent-top)
+  (other-window 1)
+  (switch-to-buffer (cider-find-or-create-repl-buffer))
+  (other-window 1))
+
+(define-key evil-insert-state-map "h" #'cofi/maybe-exit)
+
+(evil-define-command cofi/maybe-exit ()
+  :repeat change
+  (interactive)
+  (let ((modified (buffer-modified-p)))
+    (insert "h")
+    (let ((evt (read-event (format "Insert %c to exit insert state" ?j)
+               nil 0.5)))
+      (cond
+       ((null evt) (message ""))
+       ((and (integerp evt) (char-equal evt ?h))
+    (delete-char -1)
+    (set-buffer-modified-p modified)
+    (push 'escape unread-command-events))
+       (t (setq unread-command-events (append unread-command-events
+                          (list evt))))))))
+
+(defun cider-run-tests ()
+  (interactive)
+  (let ((result-buffer (cider-popup-buffer cider-result-buffer nil)))
+    (cider-tooling-eval "(clojure.pprint/pprint (run-tests))" 
+                        (cider-popup-eval-out-handler result-buffer)
+                        (cider-current-ns))))

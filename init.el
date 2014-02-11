@@ -10,6 +10,7 @@
 
 ;; Add in your own as you wish:
 (defvar my-packages '(evil
+                    autopair
                     auctex	        
                     evil-leader
                     evil-paredit
