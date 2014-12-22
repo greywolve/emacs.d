@@ -14,6 +14,7 @@
 ;; Packages which should be present
 (defvar my-packages '(evil
                       autopair
+                      company
                       dash
                       auctex
                       evil-leader
@@ -84,6 +85,7 @@
 (require 'setup-smex)
 (require 'setup-whitespace)
 (require 'setup-yasnippet)
+(require 'setup-company)
 
 ;; setup markdown-mode
 (autoload 'markdown-mode "markdown-mode"
