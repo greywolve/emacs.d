@@ -5,3 +5,5 @@
 (global-whitespace-mode t)
 
 (setq-default indent-tabs-mode nil)
+
+(provide 'setup-whitespace)

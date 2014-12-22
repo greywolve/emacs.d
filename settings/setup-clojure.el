@@ -1,8 +1,9 @@
-; Clojure related
 (setq auto-mode-alist (cons '("\\.edn$" . clojure-mode) auto-mode-alist))  ; *.edn are Clojure files
+
 (setq auto-mode-alist (cons '("\\.cljs$" . clojure-mode) auto-mode-alist)) ; *.cljs are Clojure files
 
 (add-hook 'temp-buffer-show-hook 'clojure-mode)
+
 (setq initial-major-mode 'clojure-mode)
 
 ;;(add-hook 'clojure-mode-hook 'cider-mode)                                ; Use paredit in clojure buffers
@@ -14,7 +15,7 @@
 (setq cider-repl-popup-stacktraces nil)
 ;; switching to CIDER buffer does so in the current window
 (setq cider-repl-display-in-current-window t)
-;;(setq nrepl-popup-stacktraces-in-repl t)                               
+;;(setq nrepl-popup-stacktraces-in-repl t)
 
 (defun turn-on-paredit ()
 (message "sup")
@@ -38,3 +39,4 @@
                                                              "\u0192"
                                                              'decompose-region)))))))
 
+(provide 'setup-clojure)

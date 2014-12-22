@@ -75,3 +75,5 @@
 (defun open-dired-default-directory ()
 	(interactive)
 	(dired default-directory))
+
+(provide 'setup-bindings)

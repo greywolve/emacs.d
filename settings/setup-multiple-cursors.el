@@ -36,3 +36,5 @@
           'my-mc-evil-switch-to-emacs-state)
 (add-hook 'multiple-cursors-mode-disabled-hook
           'my-mc-evil-back-to-previous-state)
+
+(provide 'setup-multiple-cursors)

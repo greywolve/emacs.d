@@ -5,3 +5,4 @@
 
 (setq httpd-port 8099)
 
+(provide 'setup-skewer)

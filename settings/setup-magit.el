@@ -6,3 +6,5 @@
 
 ;; start magit in its own buffer rather
 ;;(setq magit-status-buffer-switch-function 'switch-to-buffer)
+
+(provide 'setup-magit)
