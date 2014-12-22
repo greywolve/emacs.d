@@ -14,6 +14,7 @@
 ;; Packages which should be present
 (defvar my-packages '(evil
                       autopair
+                      dash
                       auctex
                       evil-leader
                       evil-paredit
