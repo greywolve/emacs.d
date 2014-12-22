@@ -64,6 +64,7 @@
 (add-to-list 'load-path settings-dir)
 
 (require 'setup-ui)
+(require 'setup-evil)
 
 ;; setup markdown-mode
 (autoload 'markdown-mode "markdown-mode"

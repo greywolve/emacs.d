@@ -6,6 +6,7 @@
   (other-window 1)
   (switch-to-buffer (cider-find-or-create-repl-buffer))
   (other-window 1))
+
 (require 'evil)
 (require 'evil-paredit)
 (require 'evil-leader)
@@ -30,7 +31,6 @@
 (add-hook 'java-mode-hook
   (function (lambda ()
           (setq evil-shift-width 2))))
-
 
 
 (setq evil-leader/in-all-states t)
@@ -341,3 +341,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (cider-tooling-eval "(clojure.pprint/pprint (run-tests))" 
                         (cider-popup-eval-out-handler result-buffer)
                         (cider-current-ns))))
+
+(provide 'setup-evil)
