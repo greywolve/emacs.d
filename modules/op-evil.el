@@ -9,6 +9,7 @@
 (require 'evil)
 (require 'evil-paredit)
 (require 'evil-leader)
+(require 'dash)
 
 (add-hook 'emacs-lisp-mode-hook 'evil-paredit-mode)
 (add-hook 'clojure-mode-hook 'evil-paredit-mode)
@@ -38,21 +39,25 @@
 (global-evil-leader-mode 1)
 (evil-mode 1)
 
-
 (evil-leader/set-key
   "," 'switch-to-previous-buffer
-	"h" 'projectile-switch-to-buffer)
+	"h" 'projectile-switch-to-buffer
+  "p"  )
+
+(defun clj-jump-to-tag ()
+  (interactive)
+  (find-tag (first (last (split-string (thing-at-point 'symbol) "/")))))
 
 (evil-leader/set-key-for-mode 'clojure-mode
   "j" 'cider-start-and-split-window-repl-bottom
-  "p" 'cider-eval-expression-at-point-in-repl
+  "p" 'cider-pprint-eval-last-sexp
   "y" 'cider-eval-expression-at-point-and-paste-into-buffer
   "e" 'cider-eval-buffer
   "r" 'refresh-browser
   "s" 'paredit-forward-slurp-sexp
   "h" 'paredit-forward-barf-sexp
 	"n" 'paredit-split-sexp
-	"t" 'paredit-join-sexps
+	"t" 'clj-jump-to-tag
   "c" 'paredit-reindent-defun)
 
 (evil-leader/set-key-for-mode 'emacs-lisp-mode
@@ -66,6 +71,14 @@
 (evil-leader/set-key-for-mode 'js2-mode
 	"e" 'skewer-eval-last-expression
   "l" 'skewer-refresh-browser-then-load-buffer)
+
+(defun evil-paste-from-zero-register ()
+  (interactive)
+  (evil-paste-after 1 ?0))
+
+(defun evil-yank-to-zero-register ()
+  (interactive)
+  (evil-yank 1 ?0))
 
 (defun projectile-grep-cljs ()
   "Perform rgrep in the project."
@@ -175,6 +188,7 @@
  )
 
 
+
 (defun jump-to-tag-from-selected-region (start end)
   (interactive "r")
   (find-tag (buffer-substring-no-properties start end)))
@@ -188,15 +202,15 @@ for specifying the tag."
   (interactive "P")
   (if arg
       (call-interactively #'find-tag)
-      (find-tag (buffer-substring-no-properties (region-beginning) (region-end)))
+    (find-tag (buffer-substring-no-properties (region-beginning) (region-end)))
     ))
 
 (define-key evil-visual-state-map "\C-]" 'evil-jump-to-tag-visual)
 
 (defun switch-and-pause (x y)
-      (switch-to-buffer "*scratch*")
-      (read-from-minibuffer "Press any key to return: ")
-      (switch-to-previous-buffer))
+  (switch-to-buffer "*scratch*")
+  (read-from-minibuffer "Press any key to return: ")
+  (switch-to-previous-buffer))
 
 (defun cider-eval-form-and-display-in-popup-with-pause ()
   (interactive)

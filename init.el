@@ -1,71 +1,79 @@
 (require 'package)
+
 (add-to-list 'package-archives
   '("marmalade" . "http://marmalade-repo.org/packages/") t)
+
 (add-to-list 'package-archives
 '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 (package-initialize)
 
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; Add in your own as you wish:
+;; Packages which should be present
 (defvar my-packages '(evil
-                    autopair
-                    auctex	        
-                    evil-leader
-                    evil-paredit
-                    paredit        
-                    magit              
-                    flx-ido
-                    clojure-mode
-                    ido-ubiquitous
-                    idle-highlight-mode
-                    cider
-                    rainbow-delimiters                    
-                    projectile
-		    solarized-theme
-		    multiple-cursors
-	            js2-mode
-                    ack-and-a-half                    
-                    markdown-mode
-                    skewer-mode
-                    smex
-                    hlinum
-                    yasnippet
-                    popup
-		    ac-nrepl)  
+                      autopair
+                      auctex
+                      evil-leader
+                      evil-paredit
+                      paredit
+                      magit
+                      flx-ido
+                      clojure-mode
+                      ido-ubiquitous
+                      idle-highlight-mode
+                      cider
+                      rainbow-delimiters
+                      projectile
+                      solarized-theme
+                      multiple-cursors
+                      js2-mode
+                      ack-and-a-half
+                      markdown-mode
+                      skewer-mode
+                      smex
+                      hlinum
+                      yasnippet
+                      popup
+                      ac-nrepl)
   "A list of packages to ensure are installed at launch.")
 
-;; Automaticaly install any missing packages
+;; Install any missing packages
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
-;; load vendor and custom files
+
+;; Directories
 (defvar emacs-dir (file-name-directory load-file-name)
-  "top level emacs dir")
+  "Top level emacs directory")
+
 (defvar vendor-dir (concat emacs-dir "vendor/")
   "Packages not yet avilable in ELPA")
+
 (defvar module-dir (concat emacs-dir "modules/")
   "The core of my emacs config")
 
-;; setup auto complete
-(add-to-list 'load-path "/home/oliver/.emacs.d/vendor/auto-complete")
-(require 'auto-complete-config)
-(ac-config-default)
+(defvar settings-dir (concat emacs-dir "settings/")
+  "The core of my emacs config")
 
-;; setup auto-complete for nrepl/cider (clojure)
-(require 'ac-nrepl)
-(add-hook 'cider-repl-mode-hook 'ac-nrepl-setup)
-(add-hook 'cider-mode-hook 'ac-nrepl-setup)
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'cider-repl-mode))
-
-;; Make Clipboard work properly 
-(setq x-select-enable-clipboard t)
-
-;; Add to load path
+;; Load paths
 (add-to-list 'load-path vendor-dir)
 (add-to-list 'load-path module-dir)
+(add-to-list 'load-path settings-dir)
+
+(require 'setup-ui)
+
+;; setup markdown-mode
+(autoload 'markdown-mode "markdown-mode"
+   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-hook 'markdown-mode-hook 'outline-minor-mode)
+
+;; Make Clipboard work properly
+(setq x-select-enable-clipboard t)
 
 ;; Require packages in modules/
 (mapc 'load (directory-files module-dir nil "^[^#].*el$"))

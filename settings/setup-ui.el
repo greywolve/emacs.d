@@ -79,4 +79,6 @@
   (mouse-wheel-mode t)
   (blink-cursor-mode -1))
 
-(set-cursor-color "#000") 
+(set-cursor-color "#000")
+
+(provide 'setup-ui)
