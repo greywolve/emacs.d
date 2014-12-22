@@ -65,6 +65,7 @@
 
 (require 'setup-ui)
 (require 'setup-evil)
+(require 'setup-projectile)
 
 ;; setup markdown-mode
 (autoload 'markdown-mode "markdown-mode"
