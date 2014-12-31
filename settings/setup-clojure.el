@@ -18,7 +18,6 @@
 ;;(setq nrepl-popup-stacktraces-in-repl t)
 
 (defun turn-on-paredit ()
-(message "sup")
   (paredit-mode 1))
 
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)         ; Enable eldoc - shows fn argument list in echo area

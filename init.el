@@ -12,8 +12,7 @@
   (package-refresh-contents))
 
 ;; Packages which should be present
-(defvar my-packages '(evil
-                      autopair
+(defvar my-packages '(autopair
                       company
                       dash
                       auctex
@@ -51,7 +50,7 @@
   "Top level emacs directory")
 
 (defvar vendor-dir (concat emacs-dir "vendor/")
-  "Packages not yet avilable in ELPA")
+  "Packages not yet avilable in ELPA or built from source")
 
 (defvar module-dir (concat emacs-dir "modules/")
   "The core of my emacs config")
