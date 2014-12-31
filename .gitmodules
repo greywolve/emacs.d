@@ -1,0 +1,9 @@
+[submodule "vendor/evil"]
+	path = vendor/evil
+	url = git://gitorious.org/evil/evil.git
+[submodule "vendor/evil-leader"]
+	path = vendor/evil-leader
+	url = git@github.com:cofi/evil-leader.git
+[submodule "vendor/evil-paredit"]
+	path = vendor/evil-paredit
+	url = git@github.com:roman/evil-paredit.git

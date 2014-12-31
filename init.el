@@ -1,3 +1,33 @@
+;; Directories
+(defvar emacs-dir (file-name-directory load-file-name)
+  "Top level emacs directory")
+
+(defvar vendor-dir (concat emacs-dir "vendor/")
+  "Packages not yet avilable in ELPA or built from source")
+
+(defvar evil-dir (concat emacs-dir "vendor/evil/")
+  "Evil mode source")
+
+(defvar evil-leader-dir (concat emacs-dir "vendor/evil-leader/")
+  "Evil mode source")
+
+(defvar evil-paredit-dir (concat emacs-dir "vendor/evil-paredit/")
+  "Evil mode source")
+
+(defvar module-dir (concat emacs-dir "modules/")
+  "The core of my emacs config")
+
+(defvar settings-dir (concat emacs-dir "settings/")
+  "The core of my emacs config")
+
+;; Load paths
+(add-to-list 'load-path vendor-dir)
+(add-to-list 'load-path evil-dir)
+(add-to-list 'load-path evil-leader-dir)
+(add-to-list 'load-path evil-paredit-dir)
+(add-to-list 'load-path module-dir)
+(add-to-list 'load-path settings-dir)
+
 (require 'package)
 
 (add-to-list 'package-archives
@@ -16,8 +46,6 @@
                       company
                       dash
                       auctex
-                      evil-leader
-                      evil-paredit
                       paredit
                       magit
                       flx-ido
@@ -45,23 +73,7 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
-;; Directories
-(defvar emacs-dir (file-name-directory load-file-name)
-  "Top level emacs directory")
 
-(defvar vendor-dir (concat emacs-dir "vendor/")
-  "Packages not yet avilable in ELPA or built from source")
-
-(defvar module-dir (concat emacs-dir "modules/")
-  "The core of my emacs config")
-
-(defvar settings-dir (concat emacs-dir "settings/")
-  "The core of my emacs config")
-
-;; Load paths
-(add-to-list 'load-path vendor-dir)
-(add-to-list 'load-path module-dir)
-(add-to-list 'load-path settings-dir)
 
 (require 'setup-ui)
 (require 'setup-evil)
