@@ -1,4 +1,5 @@
 ;; Directories
+;; need to find a smarter way to do this
 (defvar emacs-dir (file-name-directory load-file-name)
   "Top level emacs directory")
 
@@ -6,6 +7,9 @@
   "Packages not yet avilable in ELPA or built from source")
 
 (defvar evil-dir (concat emacs-dir "vendor/evil/")
+  "Evil mode source")
+
+(defvar evil-libs-dir (concat emacs-dir "vendor/evil/lib")
   "Evil mode source")
 
 (defvar evil-leader-dir (concat emacs-dir "vendor/evil-leader/")
@@ -23,6 +27,7 @@
 ;; Load paths
 (add-to-list 'load-path vendor-dir)
 (add-to-list 'load-path evil-dir)
+(add-to-list 'load-path evil-libs-dir)
 (add-to-list 'load-path evil-leader-dir)
 (add-to-list 'load-path evil-paredit-dir)
 (add-to-list 'load-path module-dir)

@@ -249,17 +249,33 @@ for specifying the tag."
 ;; easy access to ex mode
 (define-key evil-normal-state-map ";" 'evil-ex)
 
-
-;; alternative escapes since i've now bound capslock to ctrl
-(define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-
-;;; esc quits
+;;; Esc quits everything.
 (define-key evil-visual-state-map [escape] 'keyboard-quit)
 (define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+
+;;; C-c as general purpose escape key sequence.
+(defun my-esc (prompt)
+  "Functionality for escaping generally. Includes exiting Evil insert state and C-g binding. "
+  (cond
+   ;; If we're in one of the Evil states that defines [escape] key, return [escape] so as
+   ;; Key Lookup will use it.
+   ((or (evil-insert-state-p) (evil-normal-state-p) (evil-replace-state-p) (evil-visual-state-p)) [escape])
+   ;; This is the best way I could infer for now to have C-c work during evil-read-key.
+   ;; Note: As long as I return [escape] in normal-state, I don't need this.
+   ;;((eq overriding-terminal-local-map evil-read-key-map) (keyboard-quit) (kbd ""))
+   (t (kbd "C-g"))))
+
+(define-key key-translation-map (kbd "C-c") 'my-esc)
+;; Works around the fact that Evil uses read-event directly when in operator state, which
+;; doesn't use the key-translation-map.
+(define-key evil-operator-state-map (kbd "C-c") 'keyboard-quit)
+;; Not sure what behavior this changes, but might as well set it, seeing the Elisp manual's
+;; documentation of it.
+(set-quit-char "C-c")
 
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
@@ -341,5 +357,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
     (cider-tooling-eval "(clojure.pprint/pprint (run-tests))" 
                         (cider-popup-eval-out-handler result-buffer)
                         (cider-current-ns))))
+
+
+
 
 (provide 'setup-evil)
