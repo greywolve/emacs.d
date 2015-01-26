@@ -41,8 +41,7 @@
 
 (evil-leader/set-key
   "," 'switch-to-previous-buffer
-	"h" 'projectile-switch-to-buffer
-  "p"  )
+  "g" 'projectile-grep)
 
 (defun clj-jump-to-tag ()
   (interactive)
