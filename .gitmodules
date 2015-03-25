@@ -7,3 +7,6 @@
 [submodule "vendor/evil-paredit"]
 	path = vendor/evil-paredit
 	url = git@github.com:roman/evil-paredit.git
+[submodule "vendor/cider"]
+	path = vendor/cider
+	url = git@github.com:clojure-emacs/cider.git

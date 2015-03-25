@@ -18,6 +18,9 @@
 (defvar evil-paredit-dir (concat emacs-dir "vendor/evil-paredit/")
   "Evil mode source")
 
+(defvar cider-dir (concat emacs-dir "vendor/cider/")
+  "CIDER mode source")
+
 (defvar module-dir (concat emacs-dir "modules/")
   "The core of my emacs config")
 
@@ -30,6 +33,7 @@
 (add-to-list 'load-path evil-libs-dir)
 (add-to-list 'load-path evil-leader-dir)
 (add-to-list 'load-path evil-paredit-dir)
+(add-to-list 'load-path cider-dir)
 (add-to-list 'load-path module-dir)
 (add-to-list 'load-path settings-dir)
 
@@ -50,6 +54,8 @@
 (defvar my-packages '(autopair
                       company
                       dash
+											pkg-info
+											queue
                       auctex
                       paredit
                       magit
@@ -57,7 +63,6 @@
                       clojure-mode
                       ido-ubiquitous
                       idle-highlight-mode
-                      cider
                       rainbow-delimiters
                       projectile
                       solarized-theme
@@ -69,8 +74,7 @@
                       smex
                       hlinum
                       yasnippet
-                      popup
-                      ac-nrepl)
+                      popup)
   "A list of packages to ensure are installed at launch.")
 
 ;; Install any missing packages
