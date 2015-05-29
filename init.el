@@ -106,6 +106,7 @@
 (require 'setup-whitespace)
 (require 'setup-yasnippet)
 (require 'setup-company)
+(require 'setup-octave-mode)
 
 ;; setup markdown-mode
 (autoload 'markdown-mode "markdown-mode"

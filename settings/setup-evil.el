@@ -50,7 +50,7 @@
 (evil-leader/set-key-for-mode 'clojure-mode
   "j" 'cider-start-and-split-window-repl-bottom
   "p" 'cider-pprint-eval-last-sexp
-  "y" 'cider-eval-expression-at-point-and-paste-into-buffer
+  "y" 'cider-eval-print-last-sexp
   "e" 'cider-eval-buffer
   "r" 'refresh-browser
   "s" 'paredit-forward-slurp-sexp
