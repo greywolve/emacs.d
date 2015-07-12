@@ -26,7 +26,6 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 (fringe-mode -1)
-(blink-cursor-mode -1)
 (setq inhibit-startup-screen t)
 (menu-bar-mode -1)
 
@@ -79,6 +78,34 @@
   (mouse-wheel-mode t)
   (blink-cursor-mode -1))
 
-(set-cursor-color "#000")
+
+;;Cursor
+(set-cursor-color "#fffacd")
+
+(blink-cursor-mode 1)
+
+;; center windows, taken from the center-window-mode package
+
+(defun center-window ()
+  (set-fringe-mode
+   (/ (- (frame-pixel-width)
+         (* 110 (frame-char-width)))
+      2)))
+
+(defun center-window-reset ()
+  (set-fringe-mode nil))
+
+(setq window-centered 1)
+
+(defun center-window-toggle ()
+  "Toggle window centered"
+  (interactive)
+  (if (= window-centered 1)
+      (center-window-reset)
+      (center-window))
+  (setq window-centered (if (= window-centered 1) 0 1)))
+
+(center-window)
+
 
 (provide 'setup-ui)
