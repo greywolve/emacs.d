@@ -7,10 +7,10 @@
     (set-face-attribute 'default nil :height 110 :family "Monaco"))
 
 
-(set-cursor-color "#000")
+;;(set-cursor-color "#000")
 ;;hack to get cursor color set when using the solarized theme
-(add-hook 'window-setup-hook '(lambda () (set-cursor-color "#000")))
-(add-hook 'after-make-frame-functions '(lambda (f) (with-selected-frame f (set-cursor-color "#000"))))
+(add-hook 'window-setup-hook '(lambda () (set-cursor-color "#fffacd")))
+(add-hook 'after-make-frame-functions '(lambda (f) (with-selected-frame f (set-cursor-color "#fffacd"))))
 
 (defun toggle-fullscreen ()
   "Toggle full screen on X11"
@@ -80,11 +80,18 @@
 
 
 ;;Cursor
-(set-cursor-color "#fffacd")
+
 
 (blink-cursor-mode 1)
 
+(defun cursor-color-set ()
+  (interactive)
+  (set-cursor-color "#fffacd"))
+
 ;; center windows, taken from the center-window-mode package
+
+;; Prevent popup windows from vertically splitting (conflicts with center window mode)
+(setq split-width-threshold 9999)
 
 (defun center-window ()
   (set-fringe-mode
