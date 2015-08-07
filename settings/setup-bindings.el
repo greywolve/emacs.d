@@ -8,22 +8,21 @@
 
 (global-set-key [C-tab] 'other-window)
 
-;; open org-mode agenda
-(global-set-key (kbd "<f1>") 'org-agenda-list)
 
-;; key to open stuff i learned today
-(global-set-key (kbd "<f3>") 'open-things-i-learned-today-file)
+(defun connect-to-nrepl-on-default-port ()
+  (interactive)
+  (cider-connect "localhost" 9991))
 
-(defun open-things-i-learned-today-file ()
- (interactive)
- (find-file "~/org/things-i-learned-today.org"))
+(global-set-key (kbd "<f1>") 'connect-to-nrepl-on-default-port)
+
+(global-set-key (kbd "<f2>") 'cider-connect)
 
 ;; so i can instantly add bindings easily
 (global-set-key (kbd "<f4>") 'open-emacs-bindings-file)
 
 (defun open-emacs-bindings-file ()
 	(interactive)
-	(find-file "~/.emacs.d/modules/op-bindings.el"))
+	(find-file "~/.emacs.d/settings/setup-bindings.el"))
 
  (defun kill-all-dired-buffers()
       "Kill all dired buffers."

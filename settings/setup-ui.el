@@ -6,6 +6,7 @@
     (set-face-attribute 'default nil :height 110 :family "Monaco")
     (set-face-attribute 'default nil :height 110 :family "Monaco"))
 
+(global-visual-line-mode t)
 
 ;;(set-cursor-color "#000")
 ;;hack to get cursor color set when using the solarized theme

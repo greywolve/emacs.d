@@ -41,15 +41,24 @@
 
 (evil-leader/set-key
   "," 'switch-to-previous-buffer
-  "g" 'projectile-grep)
+  "g" 'projectile-grep
+  "p" 'inf-clojure-eval-last-sexp)
 
 (defun clj-jump-to-tag ()
   (interactive)
   (find-tag (first (last (split-string (thing-at-point 'symbol) "/")))))
 
+(defun eval-last-clojure-sexp ()
+  (interactive)
+  (if (and (stringp buffer-file-name)
+           (string-match "\\.cljs\\'" buffer-file-name))
+     (inf-clojure-eval-last-sexp)
+     (cider-pprint-eval-last-sexp)))
+
 (evil-leader/set-key-for-mode 'clojure-mode
   "j" 'cider-start-and-split-window-repl-bottom
-  "p" 'cider-pprint-eval-last-sexp
+  "p" 'eval-last-clojure-sexp
+  "'" 'inf-clojure-set-ns-command
   "y" 'cider-eval-print-last-sexp
   "e" 'cider-eval-buffer
   "r" 'refresh-browser

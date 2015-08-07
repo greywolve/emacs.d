@@ -60,8 +60,10 @@
                       paredit
                       magit
                       flx-ido
+                      inf-clojure
                       clojure-mode
                       ido-ubiquitous
+                      haskell-mode
                       idle-highlight-mode
                       rainbow-delimiters
                       projectile
@@ -90,6 +92,7 @@
 (require 'setup-autofill)
 (require 'setup-bindings)
 (require 'setup-clojure)
+(require 'setup-inf-clojure)
 (require 'setup-dired)
 (require 'setup-elisp)
 (require 'setup-flx)
@@ -107,6 +110,7 @@
 (require 'setup-yasnippet)
 (require 'setup-company)
 (require 'setup-octave-mode)
+(require 'setup-haskell-mode)
 
 ;; setup markdown-mode
 (autoload 'markdown-mode "markdown-mode"
@@ -128,9 +132,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(browse-url-browser-function (quote browse-url-default-browser))
- '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "1f3304214265481c56341bcee387ef1abb684e4efbccebca0e120be7b1a13589" "e16a771a13a202ee6e276d06098bc77f008b73bbac4d526f160faa2d76c1dd0e" default)))
- '(org-modules (quote (org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-irc org-mew org-mhe org-rmail org-vm org-wl org-w3m org-drill org-learn)))
- '(preview-gs-options (quote ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4"))))
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "1f3304214265481c56341bcee387ef1abb684e4efbccebca0e120be7b1a13589" "e16a771a13a202ee6e276d06098bc77f008b73bbac4d526f160faa2d76c1dd0e" default)))
+ '(haskell-interactive-popup-errors nil)
+ '(org-modules
+   (quote
+    (org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-irc org-mew org-mhe org-rmail org-vm org-wl org-w3m org-drill org-learn)))
+ '(preview-gs-options
+   (quote
+    ("-q" "-dNOPAUSE" "-DNOPLATFONTS" "-dPrinted" "-dTextAlphaBits=4" "-dGraphicsAlphaBits=4"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
